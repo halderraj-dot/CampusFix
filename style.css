@@ -137,3 +137,75 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+/* Search and filter */
+
+#searchInput {
+    margin-bottom: 12px;
+}
+
+#statusFilter,
+#categoryFilter {
+    width: 48%;
+    display: inline-block;
+    margin-right: 1%;
+}
+
+
+/* Issue cards */
+
+.issue-card {
+    border: 1px solid #e5e7eb;
+    padding: 20px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.issue-card h3 {
+    color: #166534;
+    margin-bottom: 12px;
+}
+
+.issue-card p {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+
+/* Priority */
+
+.issue-card p:nth-of-type(2) {
+    font-weight: bold;
+}
+
+
+/* Delete button */
+
+.delete-btn {
+    background: #dc2626;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    #statusFilter,
+    #categoryFilter {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .issue-card {
+        padding: 15px;
+    }
+}
