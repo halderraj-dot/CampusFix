@@ -559,3 +559,55 @@ if (categoryFilter) {
 // ========================================
 
 displayIssues();
+// ========================================
+// IMAGE PREVIEW
+// ========================================
+
+const imageInput = document.getElementById("image");
+const imagePreview = document.getElementById("imagePreview");
+
+if (imageInput) {
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+
+            imagePreview.innerHTML = "";
+            imagePreview.style.display = "none";
+
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("Please select an image file.");
+
+            this.value = "";
+
+            imagePreview.innerHTML = "";
+            imagePreview.style.display = "none";
+
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            imagePreview.innerHTML = `
+                <img
+                    src="${event.target.result}"
+                    alt="Selected problem photo"
+                >
+            `;
+
+            imagePreview.style.display = "block";
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
