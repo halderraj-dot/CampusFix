@@ -1055,3 +1055,20 @@ button {
     }
 
 }
+/* ========================================
+   IMAGE PREVIEW
+   ======================================== */
+
+.image-preview {
+    margin-top: 12px;
+    display: none;
+}
+
+.image-preview img {
+    width: 100%;
+    max-width: 400px;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
