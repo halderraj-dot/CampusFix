@@ -1,6 +1,10 @@
 const form = document.getElementById("issueForm");
 const issuesList = document.getElementById("issuesList");
 
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const categoryFilter = document.getElementById("categoryFilter");
+
 let issues = JSON.parse(localStorage.getItem("campusIssues")) || [];
 
 function updateDashboard() {
@@ -26,15 +30,52 @@ function updateDashboard() {
 
 function displayIssues() {
 
-    if (issues.length === 0) {
-        issuesList.innerHTML = "<p>No issues reported yet.</p>";
+    const searchText = searchInput
+        ? searchInput.value.toLowerCase()
+        : "";
+
+    const selectedStatus = statusFilter
+        ? statusFilter.value
+        : "All";
+
+    const selectedCategory = categoryFilter
+        ? categoryFilter.value
+        : "All";
+
+    const filteredIssues = issues.filter(issue => {
+
+        const matchesSearch =
+            issue.title.toLowerCase().includes(searchText) ||
+            issue.location.toLowerCase().includes(searchText) ||
+            issue.description.toLowerCase().includes(searchText);
+
+        const matchesStatus =
+            selectedStatus === "All" ||
+            issue.status === selectedStatus;
+
+        const matchesCategory =
+            selectedCategory === "All" ||
+            issue.category === selectedCategory;
+
+        return matchesSearch &&
+               matchesStatus &&
+               matchesCategory;
+    });
+
+    if (filteredIssues.length === 0) {
+
+        issuesList.innerHTML =
+            "<p>No matching issues found.</p>";
+
         updateDashboard();
         return;
     }
 
     issuesList.innerHTML = "";
 
-    issues.forEach((issue, index) => {
+    filteredIssues.forEach(issue => {
+
+        const originalIndex = issues.indexOf(issue);
 
         const card = document.createElement("div");
 
@@ -44,8 +85,18 @@ function displayIssues() {
             <h3>${issue.title}</h3>
 
             <p>
+                <strong>Issue ID:</strong>
+                ${issue.id}
+            </p>
+
+            <p>
                 <strong>Category:</strong>
                 ${issue.category}
+            </p>
+
+            <p>
+                <strong>Priority:</strong>
+                ${issue.priority}
             </p>
 
             <p>
@@ -54,14 +105,24 @@ function displayIssues() {
             </p>
 
             <p>
+                <strong>Description:</strong>
                 ${issue.description}
+            </p>
+
+            <p>
+                <strong>Reported:</strong>
+                ${issue.date}
             </p>
 
             <label>
                 <strong>Status:</strong>
             </label>
 
-            <select class="status-select" data-index="${index}">
+            <select
+                class="status-select"
+                data-index="${originalIndex}"
+            >
+
                 <option value="Reported"
                     ${issue.status === "Reported" ? "selected" : ""}>
                     🟠 Reported
@@ -76,11 +137,15 @@ function displayIssues() {
                     ${issue.status === "Fixed" ? "selected" : ""}>
                     🟢 Fixed
                 </option>
+
             </select>
 
             <br><br>
 
-            <button class="delete-btn" data-index="${index}">
+            <button
+                class="delete-btn"
+                data-index="${originalIndex}"
+            >
                 🗑️ Delete Issue
             </button>
         `;
@@ -88,58 +153,83 @@ function displayIssues() {
         issuesList.appendChild(card);
     });
 
-    document.querySelectorAll(".status-select").forEach(select => {
+    document.querySelectorAll(".status-select")
+        .forEach(select => {
 
-        select.addEventListener("change", function() {
+            select.addEventListener("change", function() {
 
-            const index = this.dataset.index;
+                const index = this.dataset.index;
 
-            issues[index].status = this.value;
+                issues[index].status = this.value;
 
-            localStorage.setItem(
-                "campusIssues",
-                JSON.stringify(issues)
-            );
+                localStorage.setItem(
+                    "campusIssues",
+                    JSON.stringify(issues)
+                );
 
-            displayIssues();
+                displayIssues();
+            });
         });
-    });
 
-    document.querySelectorAll(".delete-btn").forEach(button => {
+    document.querySelectorAll(".delete-btn")
+        .forEach(button => {
 
-        button.addEventListener("click", function() {
+            button.addEventListener("click", function() {
 
-            const index = this.dataset.index;
+                const index = this.dataset.index;
 
-            issues.splice(index, 1);
+                issues.splice(index, 1);
 
-            localStorage.setItem(
-                "campusIssues",
-                JSON.stringify(issues)
-            );
+                localStorage.setItem(
+                    "campusIssues",
+                    JSON.stringify(issues)
+                );
 
-            displayIssues();
+                displayIssues();
+            });
         });
-    });
 
     updateDashboard();
 }
+
 
 form.addEventListener("submit", function(event) {
 
     event.preventDefault();
 
-    const title = document.getElementById("title").value;
-    const category = document.getElementById("category").value;
-    const location = document.getElementById("location").value;
-    const description = document.getElementById("description").value;
+    const title =
+        document.getElementById("title").value.trim();
+
+    const category =
+        document.getElementById("category").value;
+
+    const priority =
+        document.getElementById("priority").value;
+
+    const location =
+        document.getElementById("location").value.trim();
+
+    const description =
+        document.getElementById("description").value.trim();
 
     const newIssue = {
+
+        id: "CF-" +
+            String(issues.length + 1).padStart(3, "0"),
+
         title: title,
+
         category: category,
+
+        priority: priority,
+
         location: location,
+
         description: description,
-        status: "Reported"
+
+        status: "Reported",
+
+        date: new Date().toLocaleString()
     };
 
     issues.push(newIssue);
@@ -155,5 +245,28 @@ form.addEventListener("submit", function(event) {
 
     alert("✅ Your problem has been reported!");
 });
+
+
+if (searchInput) {
+    searchInput.addEventListener(
+        "input",
+        displayIssues
+    );
+}
+
+if (statusFilter) {
+    statusFilter.addEventListener(
+        "change",
+        displayIssues
+    );
+}
+
+if (categoryFilter) {
+    categoryFilter.addEventListener(
+        "change",
+        displayIssues
+    );
+}
+
 
 displayIssues();
