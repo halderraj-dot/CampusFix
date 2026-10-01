@@ -25,6 +25,7 @@ function updateDashboard() {
 }
 
 function displayIssues() {
+
     if (issues.length === 0) {
         issuesList.innerHTML = "<p>No issues reported yet.</p>";
         updateDashboard();
@@ -34,6 +35,7 @@ function displayIssues() {
     issuesList.innerHTML = "";
 
     issues.forEach((issue, index) => {
+
         const card = document.createElement("div");
 
         card.className = "issue-card";
@@ -51,7 +53,9 @@ function displayIssues() {
                 ${issue.location}
             </p>
 
-            <p>${issue.description}</p>
+            <p>
+                ${issue.description}
+            </p>
 
             <label>
                 <strong>Status:</strong>
@@ -73,17 +77,41 @@ function displayIssues() {
                     🟢 Fixed
                 </option>
             </select>
+
+            <br><br>
+
+            <button class="delete-btn" data-index="${index}">
+                🗑️ Delete Issue
+            </button>
         `;
 
         issuesList.appendChild(card);
     });
 
     document.querySelectorAll(".status-select").forEach(select => {
+
         select.addEventListener("change", function() {
 
             const index = this.dataset.index;
 
             issues[index].status = this.value;
+
+            localStorage.setItem(
+                "campusIssues",
+                JSON.stringify(issues)
+            );
+
+            displayIssues();
+        });
+    });
+
+    document.querySelectorAll(".delete-btn").forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            const index = this.dataset.index;
+
+            issues.splice(index, 1);
 
             localStorage.setItem(
                 "campusIssues",
