@@ -7,7 +7,25 @@ const categoryFilter = document.getElementById("categoryFilter");
 
 let issues = JSON.parse(localStorage.getItem("campusIssues")) || [];
 
+
+// ========================================
+// SAVE ISSUES
+// ========================================
+
+function saveIssues() {
+    localStorage.setItem(
+        "campusIssues",
+        JSON.stringify(issues)
+    );
+}
+
+
+// ========================================
+// UPDATE DASHBOARD
+// ========================================
+
 function updateDashboard() {
+
     const total = issues.length;
 
     const reported = issues.filter(
@@ -28,10 +46,15 @@ function updateDashboard() {
     document.getElementById("fixedCount").textContent = fixed;
 }
 
+
+// ========================================
+// DISPLAY ISSUES
+// ========================================
+
 function displayIssues() {
 
     const searchText = searchInput
-        ? searchInput.value.toLowerCase()
+        ? searchInput.value.toLowerCase().trim()
         : "";
 
     const selectedStatus = statusFilter
@@ -42,36 +65,75 @@ function displayIssues() {
         ? categoryFilter.value
         : "All";
 
+
     const filteredIssues = issues.filter(issue => {
 
+        const title = issue.title
+            ? issue.title.toLowerCase()
+            : "";
+
+        const location = issue.location
+            ? issue.location.toLowerCase()
+            : "";
+
+        const description = issue.description
+            ? issue.description.toLowerCase()
+            : "";
+
+
         const matchesSearch =
-            issue.title.toLowerCase().includes(searchText) ||
-            issue.location.toLowerCase().includes(searchText) ||
-            issue.description.toLowerCase().includes(searchText);
+            title.includes(searchText) ||
+            location.includes(searchText) ||
+            description.includes(searchText);
+
 
         const matchesStatus =
             selectedStatus === "All" ||
             issue.status === selectedStatus;
 
+
         const matchesCategory =
             selectedCategory === "All" ||
             issue.category === selectedCategory;
 
-        return matchesSearch &&
-               matchesStatus &&
-               matchesCategory;
+
+        return (
+            matchesSearch &&
+            matchesStatus &&
+            matchesCategory
+        );
     });
+
+
+    // ====================================
+    // NO ISSUES
+    // ====================================
 
     if (filteredIssues.length === 0) {
 
-        issuesList.innerHTML =
-            "<p>No matching issues found.</p>";
+        issuesList.innerHTML = `
+            <div class="empty-state">
+                <h3>No issues found</h3>
+                <p>There are no matching campus issues.</p>
+            </div>
+        `;
 
         updateDashboard();
+
         return;
     }
 
+
+    // ====================================
+    // CLEAR OLD CARDS
+    // ====================================
+
     issuesList.innerHTML = "";
+
+
+    // ====================================
+    // CREATE ISSUE CARDS
+    // ====================================
 
     filteredIssues.forEach(issue => {
 
@@ -81,7 +143,9 @@ function displayIssues() {
 
         card.className = "issue-card";
 
+
         card.innerHTML = `
+
             <h3>${issue.title}</h3>
 
             <p>
@@ -114,9 +178,11 @@ function displayIssues() {
                 ${issue.date}
             </p>
 
+
             <label>
                 <strong>Status:</strong>
             </label>
+
 
             <select
                 class="status-select"
@@ -140,82 +206,130 @@ function displayIssues() {
 
             </select>
 
-            <br><br>
 
-            <button
-                class="delete-btn"
-                data-index="${originalIndex}"
-            >
-                🗑️ Delete Issue
-            </button>
+            <div class="issue-actions">
+
+                <button
+                    type="button"
+                    class="delete-btn"
+                    data-index="${originalIndex}"
+                >
+                    🗑️ Delete Issue
+                </button>
+
+            </div>
         `;
+
 
         issuesList.appendChild(card);
     });
 
+
+    // ====================================
+    // STATUS CHANGE
+    // ====================================
+
     document.querySelectorAll(".status-select")
         .forEach(select => {
 
-            select.addEventListener("change", function() {
+            select.addEventListener("change", function () {
 
-                const index = this.dataset.index;
+                const index = Number(this.dataset.index);
 
-                issues[index].status = this.value;
+                if (issues[index]) {
 
-                localStorage.setItem(
-                    "campusIssues",
-                    JSON.stringify(issues)
-                );
+                    issues[index].status = this.value;
 
-                displayIssues();
+                    saveIssues();
+
+                    displayIssues();
+                }
             });
         });
+
+
+    // ====================================
+    // DELETE ISSUE
+    // ====================================
 
     document.querySelectorAll(".delete-btn")
         .forEach(button => {
 
-            button.addEventListener("click", function() {
+            button.addEventListener("click", function () {
 
-                const index = this.dataset.index;
+                const index = Number(this.dataset.index);
 
-                issues.splice(index, 1);
+                if (!issues[index]) {
+                    return;
+                }
 
-                localStorage.setItem(
-                    "campusIssues",
-                    JSON.stringify(issues)
+
+                const confirmDelete = confirm(
+                    "Are you sure you want to delete this issue?"
                 );
 
+
+                if (!confirmDelete) {
+                    return;
+                }
+
+
+                // Delete issue
+                issues.splice(index, 1);
+
+
+                // Save updated list
+                saveIssues();
+
+
+                // Refresh page content
                 displayIssues();
             });
         });
+
 
     updateDashboard();
 }
 
 
-form.addEventListener("submit", function(event) {
+// ========================================
+// REPORT NEW ISSUE
+// ========================================
+
+form.addEventListener("submit", function (event) {
 
     event.preventDefault();
+
 
     const title =
         document.getElementById("title").value.trim();
 
+
     const category =
         document.getElementById("category").value;
+
 
     const priority =
         document.getElementById("priority").value;
 
+
     const location =
         document.getElementById("location").value.trim();
+
 
     const description =
         document.getElementById("description").value.trim();
 
+
+    // ====================================
+    // CREATE UNIQUE ISSUE ID
+    // ====================================
+
     const newIssue = {
 
-        id: "CF-" +
-            String(issues.length + 1).padStart(3, "0"),
+        id:
+            "CF-" +
+            Date.now().toString().slice(-6),
 
         title: title,
 
@@ -232,41 +346,69 @@ form.addEventListener("submit", function(event) {
         date: new Date().toLocaleString()
     };
 
+
+    // Add issue
     issues.push(newIssue);
 
-    localStorage.setItem(
-        "campusIssues",
-        JSON.stringify(issues)
-    );
 
+    // Save
+    saveIssues();
+
+
+    // Clear form
     form.reset();
 
+
+    // Show updated issues
     displayIssues();
 
+
+    // Success message
     alert("✅ Your problem has been reported!");
 });
 
 
+// ========================================
+// SEARCH
+// ========================================
+
 if (searchInput) {
+
     searchInput.addEventListener(
         "input",
         displayIssues
     );
 }
 
+
+// ========================================
+// STATUS FILTER
+// ========================================
+
 if (statusFilter) {
+
     statusFilter.addEventListener(
         "change",
         displayIssues
     );
 }
 
+
+// ========================================
+// CATEGORY FILTER
+// ========================================
+
 if (categoryFilter) {
+
     categoryFilter.addEventListener(
         "change",
         displayIssues
     );
 }
 
+
+// ========================================
+// INITIAL LOAD
+// ========================================
 
 displayIssues();
