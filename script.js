@@ -159,9 +159,11 @@ function displayIssues() {
             </p>
 
             <p>
-                <strong>Priority:</strong>
-                ${issue.priority}
-            </p>
+    <strong>Priority:</strong>
+    <span class="priority-badge priority-${issue.priority.toLowerCase()}">
+        ${issue.priority}
+    </span>
+</p>
 
             <p>
                 <strong>Location:</strong>
@@ -183,6 +185,14 @@ function displayIssues() {
                 <strong>Status:</strong>
             </label>
 
+<p>
+    <strong>Status:</strong>
+    <span class="status-badge status-${issue.status
+        .toLowerCase()
+        .replace(" ", "-")}">
+        ${issue.status}
+    </span>
+</p>
 
             <select
                 class="status-select"
