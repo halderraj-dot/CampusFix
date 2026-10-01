@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusFix</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>🏫 CampusFix</h1>
+        <p>Report campus problems. Track solutions.</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Report a Problem</h2>
+
+            <form id="issueForm">
+
+                <label for="title">Problem Title</label><br>
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Example: Wi-Fi not working"
+                    required
+                >
+                <br><br>
+
+                <label for="category">Category</label><br>
+                <select id="category" required>
+                    <option value="">Select category</option>
+                    <option>Wi-Fi</option>
+                    <option>Electricity</option>
+                    <option>Classroom</option>
+                    <option>Washroom</option>
+                    <option>Cleanliness</option>
+                    <option>Other</option>
+                </select>
+                <br><br>
+
+                <label for="location">Location</label><br>
+                <input
+                    type="text"
+                    id="location"
+                    placeholder="Example: EM4 Block, Room 203"
+                    required
+                >
+                <br><br>
+
+                <label for="description">Description</label><br>
+                <textarea
+                    id="description"
+                    placeholder="Describe the problem..."
+                    required
+                ></textarea>
+                <br><br>
+
+                <button type="submit">Report Problem</button>
+
+            </form>
+        </section>
+
+        <section>
+            <h2>Reported Issues</h2>
+            <div id="issuesList">
+                <p>No issues reported yet.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>CampusFix © 2026</p>
+    </footer>
+
+</body>
+</html>
