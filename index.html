@@ -1,150 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusFix</title>
-    <link rel="stylesheet" href="style.css">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>CampusFix TIU</title>
+
+    <link rel="stylesheet"
+        href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>🏫 CampusFix</h1>
-        <p>Report campus problems. Track solutions.</p>
+    <!-- HEADER -->
+
+    <header class="site-header">
+
+        <div class="nav-container">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    🏫
+                </div>
+
+                <div>
+                    <h1>CampusFix TIU</h1>
+                    <p>Report. Track. Improve.</p>
+                </div>
+
+            </div>
+
+            <button
+                class="nav-button"
+                onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
+                + Report Issue
+            </button>
+
+        </div>
+
     </header>
 
-    <main>
 
-    <section>
-        <h2>📊 Campus Dashboard</h2>
+    <!-- HERO -->
 
-        <div class="dashboard">
-            <div class="stat">
-                <h3 id="totalCount">0</h3>
-                <p>Total Issues</p>
-            </div>
+    <section class="hero">
 
-            <div class="stat">
-                <h3 id="reportedCount">0</h3>
-                <p>Reported</p>
-            </div>
+        <div class="hero-content">
 
-            <div class="stat">
-                <h3 id="progressCount">0</h3>
-                <p>In Progress</p>
-            </div>
+            <span class="hero-badge">
+                TIU Campus Support
+            </span>
 
-            <div class="stat">
-                <h3 id="fixedCount">0</h3>
-                <p>Fixed</p>
-            </div>
+            <h2>
+                Make Your Campus
+                <span>Better.</span>
+            </h2>
+
+            <p>
+                Report campus problems and help
+                create a cleaner, safer and better
+                campus for everyone.
+            </p>
+
+            <button
+                class="hero-button"
+                onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
+
+                Report a Problem
+
+            </button>
+
         </div>
+
     </section>
-        <section>
-    <h2>🔎 Find Issues</h2>
 
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by title, location or description..."
-    >
 
-    <select id="statusFilter">
-        <option value="All">All Status</option>
-        <option value="Reported">Reported</option>
-        <option value="In Progress">In Progress</option>
-        <option value="Fixed">Fixed</option>
-    </select>
+    <!-- MAIN -->
 
-    <select id="categoryFilter">
-        <option value="All">All Categories</option>
-        <option value="Wi-Fi">Wi-Fi</option>
-        <option value="Electricity">Electricity</option>
-        <option value="Classroom">Classroom</option>
-        <option value="Washroom">Washroom</option>
-        <option value="Cleanliness">Cleanliness</option>
-        <option value="Other">Other</option>
-    </select>
-</section>
-        
-        <section>
-            <h2>Report a Problem</h2>
+    <main class="container">
 
-            <form id="issueForm">
 
-                <label for="title">Problem Title</label><br>
+        <!-- DASHBOARD -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        OVERVIEW
+                    </span>
+
+                    <h2>
+                        Campus Dashboard
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard">
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        📋
+                    </div>
+
+                    <h3 id="totalCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Total Issues
+                    </p>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        🟠
+                    </div>
+
+                    <h3 id="reportedCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Reported
+                    </p>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        🔵
+                    </div>
+
+                    <h3 id="progressCount">
+                        0
+                    </h3>
+
+                    <p>
+                        In Progress
+                    </p>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="stat-icon">
+                        ✅
+                    </div>
+
+                    <h3 id="fixedCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Fixed
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SEARCH -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        FIND
+                    </span>
+
+                    <h2>
+                        Find Issues
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="filters">
+
                 <input
                     type="text"
-                    id="title"
-                    placeholder="Example: Wi-Fi not working"
-                    required
+                    id="searchInput"
+                    class="search-box"
+                    placeholder="🔎 Search by title, location or description..."
                 >
-                <br><br>
-                <label for="priority">Priority</label><br>
-<select id="priority" required>
-    <option value="">Select priority</option>
-    <option value="Low">🟢 Low</option>
-    <option value="Medium">🟡 Medium</option>
-    <option value="High">🔴 High</option>
-</select>
-<br><br>
 
-                <label for="category">Category</label><br>
-                <select id="category" required>
-                    <option value="">Select category</option>
-                    <option>Wi-Fi</option>
-                    <option>Electricity</option>
-                    <option>Classroom</option>
-                    <option>Washroom</option>
-                    <option>Cleanliness</option>
-                    <option>Other</option>
+
+                <select id="statusFilter">
+
+                    <option value="All">
+                        All Status
+                    </option>
+
+                    <option value="Reported">
+                        Reported
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Fixed">
+                        Fixed
+                    </option>
+
                 </select>
-                <br><br>
 
-                <label for="location">Location</label><br>
-                <input
-                    type="text"
-                    id="location"
-                    placeholder="Example: EM4 Block, Room 203"
-                    required
-                >
-                <br><br>
 
-                <label for="description">Description</label><br>
-                <textarea
-                    id="description"
-                    placeholder="Describe the problem..."
-                    required
-                ></textarea>
-                <br><br>
-                <label for="image">📷 Problem Photo</label><br>
+                <select id="categoryFilter">
 
-<input
-    type="file"
-    id="image"
-    accept="image/*"
->
+                    <option value="All">
+                        All Categories
+                    </option>
 
-<br><br>
+                    <option value="Wi-Fi">
+                        Wi-Fi
+                    </option>
 
-                <button type="submit">Report Problem</button>
+                    <option value="Electricity">
+                        Electricity
+                    </option>
+
+                    <option value="Classroom">
+                        Classroom
+                    </option>
+
+                    <option value="Washroom">
+                        Washroom
+                    </option>
+
+                    <option value="Cleanliness">
+                        Cleanliness
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- REPORT FORM -->
+
+        <section
+            class="section report-section"
+            id="reportSection">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        REPORT
+                    </span>
+
+                    <h2>
+                        Report a Problem
+                    </h2>
+
+                    <p class="section-description">
+                        Tell us about a problem on the TIU campus.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <form
+                id="issueForm"
+                class="issue-form">
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="title">
+                        Problem Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Example: Wi-Fi not working"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- CATEGORY + PRIORITY -->
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <select
+                            id="category"
+                            required>
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option>
+                                Wi-Fi
+                            </option>
+
+                            <option>
+                                Electricity
+                            </option>
+
+                            <option>
+                                Classroom
+                            </option>
+
+                            <option>
+                                Washroom
+                            </option>
+
+                            <option>
+                                Cleanliness
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="priority">
+                            Priority
+                        </label>
+
+                        <select
+                            id="priority"
+                            required>
+
+                            <option value="">
+                                Select priority
+                            </option>
+
+                            <option value="Low">
+                                Low
+                            </option>
+
+                            <option value="Medium">
+                                Medium
+                            </option>
+
+                            <option value="High">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="location"
+                        placeholder="Example: EM4 Block, Room 203"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe the problem..."
+                        required>
+                    </textarea>
+
+                </div>
+
+
+
+                <!-- IMAGE -->
+
+                <div class="form-group">
+
+                    <label for="image">
+                        📷 Problem Photo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                    >
+
+                    <small>
+                        Optional. Add a photo to help explain the problem.
+                    </small>
+
+                </div>
+
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="submit-button">
+
+                    🚀 Submit Problem
+
+                </button>
 
             </form>
+
         </section>
 
-        <section>
-            <h2>Reported Issues</h2>
-            <div id="issuesList">
-                <p>No issues reported yet.</p>
+
+
+        <!-- REPORTED ISSUES -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        REPORTS
+                    </span>
+
+                    <h2>
+                        Reported Issues
+                    </h2>
+
+                </div>
+
             </div>
+
+
+            <div
+                id="issuesList"
+                class="issues-list">
+
+                <div class="empty-state">
+
+                    <h3>
+                        No issues yet
+                    </h3>
+
+                    <p>
+                        Report the first campus problem.
+                    </p>
+
+                </div>
+
+            </div>
+
         </section>
+
     </main>
 
-    <footer>
-        <p>CampusFix © 2026</p>
+
+
+    <!-- FOOTER -->
+
+    <footer class="site-footer">
+
+        <h3>
+            🏫 CampusFix TIU
+        </h3>
+
+        <p>
+            Making the campus better, one report at a time.
+        </p>
+
+        <small>
+            CampusFix TIU © 2026
+        </small>
+
     </footer>
 
+
+
+    <!-- JAVASCRIPT -->
+
     <script src="script.js"></script>
+
 </body>
+
 </html>
