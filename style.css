@@ -480,3 +480,52 @@ footer,
 .issue-actions {
     margin-top: 12px;
 }
+/* ================================
+   STATUS & PRIORITY BADGES
+   ================================ */
+
+.status-badge,
+.priority-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+
+/* Status */
+
+.status-reported {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.status-in-progress {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.status-fixed {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+
+/* Priority */
+
+.priority-low {
+    background: #f0fdf4;
+    color: #15803d;
+}
+
+.priority-medium {
+    background: #fefce8;
+    color: #a16207;
+}
+
+.priority-high {
+    background: #fef2f2;
+    color: #dc2626;
+}
