@@ -5,14 +5,16 @@ const searchInput = document.getElementById("searchInput");
 const statusFilter = document.getElementById("statusFilter");
 const categoryFilter = document.getElementById("categoryFilter");
 
-let issues = JSON.parse(localStorage.getItem("campusIssues")) || [];
+let issues =
+    JSON.parse(localStorage.getItem("campusIssues")) || [];
 
 
 // ========================================
-// SAVE ISSUES
+// SAVE
 // ========================================
 
 function saveIssues() {
+
     localStorage.setItem(
         "campusIssues",
         JSON.stringify(issues)
@@ -21,29 +23,41 @@ function saveIssues() {
 
 
 // ========================================
-// UPDATE DASHBOARD
+// DASHBOARD
 // ========================================
 
 function updateDashboard() {
 
-    const total = issues.length;
+    const total =
+        issues.length;
 
-    const reported = issues.filter(
-        issue => issue.status === "Reported"
-    ).length;
+    const reported =
+        issues.filter(
+            issue => issue.status === "Reported"
+        ).length;
 
-    const progress = issues.filter(
-        issue => issue.status === "In Progress"
-    ).length;
+    const progress =
+        issues.filter(
+            issue => issue.status === "In Progress"
+        ).length;
 
-    const fixed = issues.filter(
-        issue => issue.status === "Fixed"
-    ).length;
+    const fixed =
+        issues.filter(
+            issue => issue.status === "Fixed"
+        ).length;
 
-    document.getElementById("totalCount").textContent = total;
-    document.getElementById("reportedCount").textContent = reported;
-    document.getElementById("progressCount").textContent = progress;
-    document.getElementById("fixedCount").textContent = fixed;
+
+    document.getElementById("totalCount")
+        .textContent = total;
+
+    document.getElementById("reportedCount")
+        .textContent = reported;
+
+    document.getElementById("progressCount")
+        .textContent = progress;
+
+    document.getElementById("fixedCount")
+        .textContent = fixed;
 }
 
 
@@ -53,69 +67,89 @@ function updateDashboard() {
 
 function displayIssues() {
 
-    const searchText = searchInput
-        ? searchInput.value.toLowerCase().trim()
-        : "";
-
-    const selectedStatus = statusFilter
-        ? statusFilter.value
-        : "All";
-
-    const selectedCategory = categoryFilter
-        ? categoryFilter.value
-        : "All";
-
-
-    const filteredIssues = issues.filter(issue => {
-
-        const title = issue.title
-            ? issue.title.toLowerCase()
-            : "";
-
-        const location = issue.location
-            ? issue.location.toLowerCase()
-            : "";
-
-        const description = issue.description
-            ? issue.description.toLowerCase()
+    const searchText =
+        searchInput
+            ? searchInput.value.toLowerCase().trim()
             : "";
 
 
-        const matchesSearch =
-            title.includes(searchText) ||
-            location.includes(searchText) ||
-            description.includes(searchText);
+    const selectedStatus =
+        statusFilter
+            ? statusFilter.value
+            : "All";
 
 
-        const matchesStatus =
-            selectedStatus === "All" ||
-            issue.status === selectedStatus;
+    const selectedCategory =
+        categoryFilter
+            ? categoryFilter.value
+            : "All";
 
 
-        const matchesCategory =
-            selectedCategory === "All" ||
-            issue.category === selectedCategory;
+    const filteredIssues =
+        issues.filter(issue => {
+
+            const title =
+                issue.title
+                    ? issue.title.toLowerCase()
+                    : "";
 
 
-        return (
-            matchesSearch &&
-            matchesStatus &&
-            matchesCategory
-        );
-    });
+            const location =
+                issue.location
+                    ? issue.location.toLowerCase()
+                    : "";
+
+
+            const description =
+                issue.description
+                    ? issue.description.toLowerCase()
+                    : "";
+
+
+            const matchesSearch =
+                title.includes(searchText) ||
+                location.includes(searchText) ||
+                description.includes(searchText);
+
+
+            const matchesStatus =
+                selectedStatus === "All" ||
+                issue.status === selectedStatus;
+
+
+            const matchesCategory =
+                selectedCategory === "All" ||
+                issue.category === selectedCategory;
+
+
+            return (
+                matchesSearch &&
+                matchesStatus &&
+                matchesCategory
+            );
+        });
 
 
     // ====================================
-    // NO ISSUES
+    // EMPTY
     // ====================================
 
     if (filteredIssues.length === 0) {
 
         issuesList.innerHTML = `
+
             <div class="empty-state">
-                <h3>No issues found</h3>
-                <p>There are no matching campus issues.</p>
+
+                <h3>
+                    No issues found
+                </h3>
+
+                <p>
+                    There are no matching campus issues.
+                </p>
+
             </div>
+
         `;
 
         updateDashboard();
@@ -124,56 +158,85 @@ function displayIssues() {
     }
 
 
-    // ====================================
-    // CLEAR OLD CARDS
-    // ====================================
-
     issuesList.innerHTML = "";
 
 
     // ====================================
-    // CREATE ISSUE CARDS
+    // CARDS
     // ====================================
 
     filteredIssues.forEach(issue => {
 
-        const originalIndex = issues.indexOf(issue);
+        const originalIndex =
+            issues.indexOf(issue);
 
-        const card = document.createElement("div");
 
-        card.className = "issue-card";
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "issue-card";
+
+
+        const priorityClass =
+            issue.priority
+                ? issue.priority.toLowerCase()
+                : "low";
+
+
+        const statusClass =
+            issue.status
+                ? issue.status
+                    .toLowerCase()
+                    .replace(" ", "-")
+                : "reported";
 
 
         card.innerHTML = `
 
-            <h3>${issue.title}</h3>
+            <h3>
+                ${issue.title}
+            </h3>
+
 
             <p>
                 <strong>Issue ID:</strong>
                 ${issue.id}
             </p>
 
+
             <p>
                 <strong>Category:</strong>
                 ${issue.category}
             </p>
 
+
             <p>
-    <strong>Priority:</strong>
-    <span class="priority-badge priority-${issue.priority.toLowerCase()}">
-        ${issue.priority}
-    </span>
-</p>
+
+                <strong>Priority:</strong>
+
+                <span
+                    class="priority-badge priority-${priorityClass}">
+
+                    ${issue.priority}
+
+                </span>
+
+            </p>
+
 
             <p>
                 <strong>Location:</strong>
                 ${issue.location}
             </p>
 
+
             <p>
                 <strong>Description:</strong>
                 ${issue.description}
             </p>
+
 
             <p>
                 <strong>Reported:</strong>
@@ -181,37 +244,59 @@ function displayIssues() {
             </p>
 
 
-            <label>
+            <p>
+
                 <strong>Status:</strong>
+
+                <span
+                    class="status-badge status-${statusClass}">
+
+                    ${issue.status}
+
+                </span>
+
+            </p>
+
+
+            <label>
+                <strong>Update Status:</strong>
             </label>
 
-<p>
-    <strong>Status:</strong>
-    <span class="status-badge status-${issue.status
-        .toLowerCase()
-        .replace(" ", "-")}">
-        ${issue.status}
-    </span>
-</p>
 
             <select
                 class="status-select"
-                data-index="${originalIndex}"
-            >
+                data-index="${originalIndex}">
 
-                <option value="Reported"
-                    ${issue.status === "Reported" ? "selected" : ""}>
+                <option
+                    value="Reported"
+                    ${issue.status === "Reported"
+                        ? "selected"
+                        : ""}>
+
                     🟠 Reported
+
                 </option>
 
-                <option value="In Progress"
-                    ${issue.status === "In Progress" ? "selected" : ""}>
+
+                <option
+                    value="In Progress"
+                    ${issue.status === "In Progress"
+                        ? "selected"
+                        : ""}>
+
                     🔵 In Progress
+
                 </option>
 
-                <option value="Fixed"
-                    ${issue.status === "Fixed" ? "selected" : ""}>
-                    🟢 Fixed
+
+                <option
+                    value="Fixed"
+                    ${issue.status === "Fixed"
+                        ? "selected"
+                        : ""}>
+
+                    ✅ Fixed
+
                 </option>
 
             </select>
@@ -222,16 +307,19 @@ function displayIssues() {
                 <button
                     type="button"
                     class="delete-btn"
-                    data-index="${originalIndex}"
-                >
+                    data-index="${originalIndex}">
+
                     🗑️ Delete Issue
+
                 </button>
 
             </div>
+
         `;
 
 
         issuesList.appendChild(card);
+
     });
 
 
@@ -239,62 +327,78 @@ function displayIssues() {
     // STATUS CHANGE
     // ====================================
 
-    document.querySelectorAll(".status-select")
+    document
+        .querySelectorAll(".status-select")
         .forEach(select => {
 
-            select.addEventListener("change", function () {
+            select.addEventListener(
+                "change",
+                function () {
 
-                const index = Number(this.dataset.index);
+                    const index =
+                        Number(this.dataset.index);
 
-                if (issues[index]) {
 
-                    issues[index].status = this.value;
+                    if (!issues[index]) {
+                        return;
+                    }
+
+
+                    issues[index].status =
+                        this.value;
+
 
                     saveIssues();
 
                     displayIssues();
+
                 }
-            });
+            );
+
         });
 
 
     // ====================================
-    // DELETE ISSUE
+    // DELETE
     // ====================================
 
-    document.querySelectorAll(".delete-btn")
+    document
+        .querySelectorAll(".delete-btn")
         .forEach(button => {
 
-            button.addEventListener("click", function () {
+            button.addEventListener(
+                "click",
+                function () {
 
-                const index = Number(this.dataset.index);
+                    const index =
+                        Number(this.dataset.index);
 
-                if (!issues[index]) {
-                    return;
+
+                    if (!issues[index]) {
+                        return;
+                    }
+
+
+                    const confirmDelete =
+                        confirm(
+                            "Are you sure you want to delete this issue?"
+                        );
+
+
+                    if (!confirmDelete) {
+                        return;
+                    }
+
+
+                    issues.splice(index, 1);
+
+                    saveIssues();
+
+                    displayIssues();
+
                 }
+            );
 
-
-                const confirmDelete = confirm(
-                    "Are you sure you want to delete this issue?"
-                );
-
-
-                if (!confirmDelete) {
-                    return;
-                }
-
-
-                // Delete issue
-                issues.splice(index, 1);
-
-
-                // Save updated list
-                saveIssues();
-
-
-                // Refresh page content
-                displayIssues();
-            });
         });
 
 
@@ -303,79 +407,112 @@ function displayIssues() {
 
 
 // ========================================
-// REPORT NEW ISSUE
+// SUBMIT ISSUE
 // ========================================
 
-form.addEventListener("submit", function (event) {
+form.addEventListener(
+    "submit",
+    function (event) {
 
-    event.preventDefault();
-
-
-    const title =
-        document.getElementById("title").value.trim();
+        event.preventDefault();
 
 
-    const category =
-        document.getElementById("category").value;
+        const title =
+            document
+                .getElementById("title")
+                .value
+                .trim();
 
 
-    const priority =
-        document.getElementById("priority").value;
+        const category =
+            document
+                .getElementById("category")
+                .value;
 
 
-    const location =
-        document.getElementById("location").value.trim();
+        const priority =
+            document
+                .getElementById("priority")
+                .value;
 
 
-    const description =
-        document.getElementById("description").value.trim();
+        const location =
+            document
+                .getElementById("location")
+                .value
+                .trim();
 
 
-    // ====================================
-    // CREATE UNIQUE ISSUE ID
-    // ====================================
-
-    const newIssue = {
-
-        id:
-            "CF-" +
-            Date.now().toString().slice(-6),
-
-        title: title,
-
-        category: category,
-
-        priority: priority,
-
-        location: location,
-
-        description: description,
-
-        status: "Reported",
-
-        date: new Date().toLocaleString()
-    };
+        const description =
+            document
+                .getElementById("description")
+                .value
+                .trim();
 
 
-    // Add issue
-    issues.push(newIssue);
+        const newIssue = {
+
+            id:
+                "CF-" +
+                Date.now()
+                    .toString()
+                    .slice(-6),
+
+            title:
+
+                title,
+
+            category:
+
+                category,
+
+            priority:
+
+                priority,
+
+            location:
+
+                location,
+
+            description:
+
+                description,
+
+            status:
+
+                "Reported",
+
+            date:
+
+                new Date()
+                    .toLocaleString()
+
+        };
 
 
-    // Save
-    saveIssues();
+        issues.push(newIssue);
+
+        saveIssues();
 
 
-    // Clear form
-    form.reset();
+        form.reset();
+
+        displayIssues();
 
 
-    // Show updated issues
-    displayIssues();
+        alert(
+            "✅ Your problem has been reported!"
+        );
 
 
-    // Success message
-    alert("✅ Your problem has been reported!");
-});
+        document
+            .getElementById("issuesList")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+);
 
 
 // ========================================
