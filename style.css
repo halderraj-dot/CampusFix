@@ -98,3 +98,42 @@ footer {
         width: 94%;
     }
 }
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat {
+    background: #f0fdf4;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.stat h3 {
+    font-size: 28px;
+    color: #166534;
+}
+
+.stat p {
+    margin-top: 5px;
+}
+
+.issue-card {
+    border: 1px solid #ddd;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.status-select {
+    margin-top: 12px;
+    max-width: 200px;
+}
+
+@media (max-width: 700px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
