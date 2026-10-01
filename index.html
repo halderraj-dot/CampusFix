@@ -3,20 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CampusFix TIU</title>
 
-    <link rel="stylesheet"
-        href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <!-- HEADER -->
-
     <header class="site-header">
 
         <div class="nav-container">
@@ -46,7 +42,6 @@
 
 
     <!-- HERO -->
-
     <section class="hero">
 
         <div class="hero-content">
@@ -61,17 +56,14 @@
             </h2>
 
             <p>
-                Report campus problems and help
-                create a cleaner, safer and better
-                campus for everyone.
+                Report campus problems and help create
+                a cleaner, safer and better campus for everyone.
             </p>
 
             <button
                 class="hero-button"
                 onclick="document.getElementById('reportSection').scrollIntoView({behavior:'smooth'})">
-
                 Report a Problem
-
             </button>
 
         </div>
@@ -79,28 +71,22 @@
     </section>
 
 
-    <!-- MAIN -->
-
+    <!-- MAIN CONTENT -->
     <main class="container">
 
 
         <!-- DASHBOARD -->
-
         <section class="section">
 
             <div class="section-heading">
 
-                <div>
+                <span class="section-label">
+                    OVERVIEW
+                </span>
 
-                    <span class="section-label">
-                        OVERVIEW
-                    </span>
-
-                    <h2>
-                        Campus Dashboard
-                    </h2>
-
-                </div>
+                <h2>
+                    CampusFix TIU Dashboard
+                </h2>
 
             </div>
 
@@ -179,24 +165,18 @@
         </section>
 
 
-
-        <!-- SEARCH -->
-
+        <!-- FIND ISSUES -->
         <section class="section">
 
             <div class="section-heading">
 
-                <div>
+                <span class="section-label">
+                    FIND
+                </span>
 
-                    <span class="section-label">
-                        FIND
-                    </span>
-
-                    <h2>
-                        Find Issues
-                    </h2>
-
-                </div>
+                <h2>
+                    Find CampusFix TIU Issues
+                </h2>
 
             </div>
 
@@ -269,30 +249,24 @@
         </section>
 
 
-
-        <!-- REPORT FORM -->
-
+        <!-- REPORT PROBLEM -->
         <section
             class="section report-section"
             id="reportSection">
 
             <div class="section-heading">
 
-                <div>
+                <span class="section-label">
+                    REPORT
+                </span>
 
-                    <span class="section-label">
-                        REPORT
-                    </span>
+                <h2>
+                    Report a Campus Problem
+                </h2>
 
-                    <h2>
-                        Report a Problem
-                    </h2>
-
-                    <p class="section-description">
-                        Tell us about a problem on the TIU campus.
-                    </p>
-
-                </div>
+                <p class="section-description">
+                    Tell us about a problem on the TIU campus.
+                </p>
 
             </div>
 
@@ -302,8 +276,7 @@
                 class="issue-form">
 
 
-                <!-- TITLE -->
-
+                <!-- PROBLEM TITLE -->
                 <div class="form-group">
 
                     <label for="title">
@@ -320,11 +293,8 @@
                 </div>
 
 
-
                 <!-- CATEGORY + PRIORITY -->
-
                 <div class="form-row">
-
 
                     <div class="form-group">
 
@@ -340,34 +310,33 @@
                                 Select category
                             </option>
 
-                            <option>
+                            <option value="Wi-Fi">
                                 Wi-Fi
                             </option>
 
-                            <option>
+                            <option value="Electricity">
                                 Electricity
                             </option>
 
-                            <option>
+                            <option value="Classroom">
                                 Classroom
                             </option>
 
-                            <option>
+                            <option value="Washroom">
                                 Washroom
                             </option>
 
-                            <option>
+                            <option value="Cleanliness">
                                 Cleanliness
                             </option>
 
-                            <option>
+                            <option value="Other">
                                 Other
                             </option>
 
                         </select>
 
                     </div>
-
 
 
                     <div class="form-group">
@@ -403,9 +372,7 @@
                 </div>
 
 
-
                 <!-- LOCATION -->
-
                 <div class="form-group">
 
                     <label for="location">
@@ -422,9 +389,7 @@
                 </div>
 
 
-
                 <!-- DESCRIPTION -->
-
                 <div class="form-group">
 
                     <label for="description">
@@ -434,42 +399,37 @@
                     <textarea
                         id="description"
                         placeholder="Describe the problem..."
-                        required>
-                    </textarea>
+                        required></textarea>
 
                 </div>
 
 
+                <!-- PHOTO -->
+<div class="form-group">
 
-                <!-- IMAGE -->
+    <label for="image">
+        📷 Problem Photo
+    </label>
 
-                <div class="form-group">
+    <input
+        type="file"
+        id="image"
+        accept="image/*"
+    >
 
-                    <label for="image">
-                        📷 Problem Photo
-                    </label>
+    <small>
+        Optional. Add a photo to help explain the problem.
+    </small>
 
-                    <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                    >
+    <div id="imagePreview" class="image-preview"></div>
 
-                    <small>
-                        Optional. Add a photo to help explain the problem.
-                    </small>
-
-                </div>
-
-
-
-                <!-- SUBMIT -->
-
+</div>
+                <!-- SUBMIT BUTTON -->
                 <button
                     type="submit"
                     class="submit-button">
 
-                    🚀 Submit Problem
+                    🚀 Submit to CampusFix TIU
 
                 </button>
 
@@ -478,24 +438,18 @@
         </section>
 
 
-
         <!-- REPORTED ISSUES -->
-
         <section class="section">
 
             <div class="section-heading">
 
-                <div>
+                <span class="section-label">
+                    REPORTS
+                </span>
 
-                    <span class="section-label">
-                        REPORTS
-                    </span>
-
-                    <h2>
-                        Reported Issues
-                    </h2>
-
-                </div>
+                <h2>
+                    CampusFix TIU Reports
+                </h2>
 
             </div>
 
@@ -511,7 +465,7 @@
                     </h3>
 
                     <p>
-                        Report the first campus problem.
+                        Report the first TIU campus problem.
                     </p>
 
                 </div>
@@ -523,9 +477,7 @@
     </main>
 
 
-
     <!-- FOOTER -->
-
     <footer class="site-footer">
 
         <h3>
@@ -533,7 +485,7 @@
         </h3>
 
         <p>
-            Making the campus better, one report at a time.
+            Making TIU campus better, one report at a time.
         </p>
 
         <small>
@@ -543,9 +495,7 @@
     </footer>
 
 
-
     <!-- JAVASCRIPT -->
-
     <script src="script.js"></script>
 
 </body>
